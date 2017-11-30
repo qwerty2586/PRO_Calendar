@@ -77,6 +77,15 @@ public class GregorianCalendar extends SunCalendar {
         month = get_epoch_month();
         day = get_epoch_day();
 
+        // we need even epoch day ( in julian calendar )
+        while (month>0) {
+            month--;
+            days+= (is_leap_year(year)) ? MONTH_DAYS_NORMAL[month] : MONTH_DAYS_LEAP[month];
+        }
+
+        days += day;
+
+
         while (days<0 || days>= year_to_days(year)) {
             if (days<0) {
                 // decreasing
@@ -88,6 +97,7 @@ public class GregorianCalendar extends SunCalendar {
                 year++;
             }
         }
+
 
         while (days>= ((is_leap_year(year)) ? MONTH_DAYS_NORMAL[month] : MONTH_DAYS_LEAP[month])) {
             days-= (is_leap_year(year)) ? MONTH_DAYS_NORMAL[month] : MONTH_DAYS_LEAP[month];
